@@ -13,7 +13,7 @@ var _options = {
   font : 'Arial:12',
   controls : {
     focus : 'auto',
-    brightness : 0,
+    brightness : 100,
     contrast : 136,
     saturation : 150,
     hue : 0,
@@ -62,6 +62,8 @@ Camelot.prototype.grab =
               for ( var option in this.opts) {
                 switch (option) {
                   case 'device':
+                    self.arguments.push("--" + option);
+                    self.arguments.push(self.opts[option]);
                     break;
                   case 'greyscale':
                     if (self.opts[option] === true) {
@@ -70,9 +72,10 @@ Camelot.prototype.grab =
                     }
                     break;
                   case 'png':
-                    format = ".png";
+                    self.format = ".png";
                     self.arguments.push("--" + option);
                     self.arguments.push(self.opts[option]);
+                    break;
                   case 'controls':
                     for ( var control in self.opts[option]) {
                       switch (control) {
@@ -141,7 +144,7 @@ Camelot.prototype.grab =
                 }
               }
 
-              var file = location + uuid() + format;
+              var file = location + uuid() + self.format;
 
               self.arguments.push('--save', file);
 
